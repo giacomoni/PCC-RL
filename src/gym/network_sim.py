@@ -352,10 +352,10 @@ class SimulatedNetworkEnv(gym.Env):
         self.viewer = None
         self.rand = None
 
-        self.min_bw, self.max_bw = (100, 500)
-        self.min_lat, self.max_lat = (0.05, 0.5)
-        self.min_queue, self.max_queue = (0, 8)
-        self.min_loss, self.max_loss = (0.0, 0.05)
+        self.min_bw, self.max_bw = (6, 192)
+        self.min_lat, self.max_lat = (0.004, 0.4)
+        self.min_queue, self.max_queue = (0, 11)
+        self.min_loss, self.max_loss = (0.0, 0.0)
         self.history_len = history_len
         print("History length: %d" % history_len)
         self.features = features.split(",")
