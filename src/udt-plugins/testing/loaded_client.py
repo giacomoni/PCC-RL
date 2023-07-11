@@ -53,7 +53,11 @@ for arg in sys.argv:
         RESET_RATE_MIN = float(arg_str)
         RESET_RATE_MAX = float(arg_str)
 
+
+
+
 class PccGymDriver():
+
     
     flow_lookup = {}
     
@@ -78,6 +82,19 @@ class PccGymDriver():
 
         PccGymDriver.flow_lookup[flow_id] = self
 
+        # self.FEATURES = ["send rate", "recv rate", "recv dur", "send dur", "avg latency", "loss ratio", "ack latency inflation", "sent latency inflation", "conn min latency", "latency increase", "latency ratio", "send ratio"]
+
+        # s = ""
+        # for i,feature in enumerate(self.FEATURES):
+        #     if i != 0:
+        #         s += ","
+        #     s+="%s" % feature
+        
+        # s+='\n'
+        # with open('/home/luca/auroradata.csv', 'w') as fout:
+        #     fout.write(s)
+
+
     def get_rate(self):
         if self.has_data():
             rate_delta = self.agent.act(self.history.as_array())
@@ -92,6 +109,15 @@ class PccGymDriver():
 
     def record_observation(self, new_mi):
         self.history.step(new_mi)
+        # s = ""
+        # for i,value in enumerate(new_mi.as_array(self.FEATURES)):
+        #     if i != 0:
+        #         s += ","
+        #     s += "%f" % value
+        # s += "\n"
+        # with open('/home/luca/auroradata.csv', 'a') as fout:
+        #     fout.write(s)
+
         self.got_data = True
 
     def reset_rate(self):
@@ -128,6 +154,14 @@ class PccGymDriver():
 
     def get_by_flow_id(flow_id):
         return PccGymDriver.flow_lookup[flow_id]
+    
+    # def __del__(self):
+#     FEATURES = ["send rate", "recv rate", "recv dur", "send dur", "avg latency", "loss ratio", "ack latency inflation", "sent latency inflation", "conn min latency", "latency increase", "latency ratio", "send ratio"]
+#     s = ""
+#     for mi in self.data:
+#         s += str(mi.as_array(FEATURES)) + "\n"
+#         print(s)
+
 
 def give_sample(flow_id, bytes_sent, bytes_acked, bytes_lost,
                 send_start_time, send_end_time, recv_start_time,
@@ -171,3 +205,4 @@ def get_rate(flow_id):
 
 def init(flow_id):
     driver = PccGymDriver(flow_id)
+
